@@ -1,0 +1,56 @@
+<p>vehiculos works!</p>
+<div class="container">
+  <h2>Gestion de Vehiculos</h2>
+
+  <form [formGroup]="vehiculoForm" (ngSubmit)="registrarVehiculo()">
+    <div>
+      <label>Placa:</label>
+      <input formControlName="placa" />
+    </div>
+    <div>
+      <label>Propietario:</label>
+      <input formControlName="propietario" />
+    </div>
+    <div>
+      <label>Marca:</label>
+      <input formControlName="marca" />
+    </div>
+    <div>
+      <label>Año de Fabricación:</label>
+      <input type="number" formControlName="fabricacion" />
+    </div>
+    <div>
+      <label>Valor Comercial:</label>
+      <input type="number" formControlName="valor_comercial" />
+    </div>
+    <button type="submit">Registrar</button>
+  </form>
+
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <h3>Listado de Vehículos</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Placa</th>
+        <th>Propietario</th>
+        <th>Marca</th>
+        <th>Año</th>
+        <th>Valor</th>
+        <th>Impuesto</th>
+        <th>Código Revisión</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let v of vehiculos" [ngClass]="{'alto-impuesto': esAltoImpuesto(v)}">
+        <td>{{v.placa}}</td>
+        <td>{{v.propietario}}</td>
+        <td>{{v.marca}}</td>
+        <td>{{v.fabricacion}}</td>
+        <td>{{v.valor_comercial | currency}}</td>
+        <td>{{v.impuesto | currency}}</td>
+        <td>{{v.codigo_revision}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

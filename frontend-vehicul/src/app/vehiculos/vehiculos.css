@@ -1,0 +1,26 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #ccc;
+  padding: 6px;
+  text-align: left;
+}
+.alto-impuesto {
+  border: 2px solid orange;
+  position: relative;
+}
+.alto-impuesto::after {
+  content: '⚠';
+  color: orange;
+  font-weight: bold;
+  margin-left: 5px;
+}
+.error {
+  color: red;
+  margin-top: 10px;
+}
+form div {
+  margin-bottom: 8px;
+}
