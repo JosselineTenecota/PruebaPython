@@ -1,17 +1,19 @@
-
+// src/app/vehiculos/vehiculos.component.ts
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { VehiculoService } from '../services/vehiculo.service';
-
+import { VehiculoService } from '../services/vehiculo';
 
 
 @Component({
   selector: 'app-vehiculos',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './vehiculos.component.html',
-  styleUrls: ['./vehiculos.component.css'],
+  templateUrl: './vehiculos.html',
+  styleUrls: ['./vehiculos.css'],
+
+
+
 })
 export class Vehiculos implements OnInit {
   vehiculoForm!: FormGroup;
@@ -25,13 +27,21 @@ export class Vehiculos implements OnInit {
       placa: ['', [Validators.required, Validators.pattern(/^.{3}-.+/)]],
       propietario: ['', Validators.required],
       marca: ['', Validators.required],
-      fabricacion: ['', [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
-      valor_comercial: ['', [Validators.required, Validators.min(0)]]
+      fabricacion: [
+        '',
+        [
+          Validators.required,
+          Validators.min(1900),
+          Validators.max(new Date().getFullYear()),
+        ],
+      ],
+      valor_comercial: ['', [Validators.required, Validators.min(0)]],
     });
+
     this.cargarVehiculos();
   }
 
-  registrarVehiculo() {
+  registrarVehiculo(): void {
     if (this.vehiculoForm.invalid) return;
 
     this.vehiculoService.crearVehiculo(this.vehiculoForm.value).subscribe({
@@ -41,15 +51,15 @@ export class Vehiculos implements OnInit {
         this.errorMessage = '';
       },
       error: (err) => {
-        this.errorMessage = err.error.detail || 'Error al registrar vehículo';
-      }
+        this.errorMessage = err.error?.detail || 'Error al registrar vehículo';
+      },
     });
   }
 
-  cargarVehiculos() {
+  cargarVehiculos(): void {
     this.vehiculoService.listarVehiculos().subscribe({
-      next: (res) => this.vehiculos = res,
-      error: (err) => console.error(err)
+      next: (res) => (this.vehiculos = res),
+      error: (err) => console.error(err),
     });
   }
 
@@ -57,5 +67,3 @@ export class Vehiculos implements OnInit {
     return vehiculo.impuesto > 500;
   }
 }
-
-
